@@ -1,0 +1,16 @@
+<md-button class="md-button-toggle" 
+		ng-click="kbstrapCtrl.toggleOpen()" 
+    aria-controls="side-menu-{{section.name | nospace}}" flex 
+    layout="row" 
+    aria-expanded="{{kbstrapCtrl.isOpen()}}">{{section.name}}
+  <span aria-hidden="true" 
+  	class="pull-right fa fa-chevron-down md-toggle-icon" 
+  	ng-class="{'toggled' : kbstrapCtrl.isOpen()}"></span>
+</md-button>
+
+<ul ng-show="kbstrapCtrl.isOpen()" id="side-menu-{{section.name | nospace}}" 
+	class="menu-toggle-list">
+  <li ng-repeat="page in section.pages">
+    <kibastrap-menu-link section="page"></kibastrap-menu-link>
+  </li>
+</ul>

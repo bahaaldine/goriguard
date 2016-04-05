@@ -1,0 +1,8 @@
+<md-button ui-sref-active="active"
+	ui-sref="{{section.state}}" 
+	ng-click="kbstrapCtrl.goToSection(section)">
+	<i class="{{section.icon}}"></i>
+	{{section | humanizeDoc}}
+	<span class="md-visually-hidden" 
+				ng-if="isSelected()">current page</span>
+</md-button>

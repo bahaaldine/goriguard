@@ -1,0 +1,21 @@
+<md-dialog aria-label="Delete User" ng-cloak>
+  
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <div class="md-title">Delete {{selected.length > 1 ? 'Users' : 'User'}}</div>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <p>
+        Are you sure you want to delete {{selected.length > 1 ? 'these users' : 'this user'}}?
+      </p>
+    </div>
+  </md-dialog-content>
+
+  <div class="md-actions" layout="row">
+    <md-button ng-click="cancel()">Cancel</md-button>
+    <md-button ng-click="deleteUser()" class="md-warn">Yes</md-button>
+  </div>
+</md-dialog>

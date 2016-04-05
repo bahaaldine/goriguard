@@ -1,0 +1,34 @@
+<div layout="column" class="layout layout-row" id="goriguard">
+
+  <div id="goriguard-content" class="users">
+
+  	<div class="realm-nav" flex layout="row" layout-align="center center">
+
+			<div flex="40" class="realm-picker">
+				<md-input-container>
+	        <label>Realms</label>
+	        <md-select ng-model="selectedRealmId" md-on-close="openRealm(selectedRealmId)">
+	          <md-option ng-repeat="realm in realms track by realm._id" value="{{realm._id}}">
+	            {{realm._source.name}}
+	          </md-option>
+	        </md-select>
+	      </md-input-container>
+			</div>
+			<div flex></div>
+			<div class="realm-create-button">
+				<md-button ng-click="createRealm($event)" class="md-raised md-primary">New realm</md-button>
+			</div>
+
+		</div>
+
+		<div class="realm-manager" ng-if="selectedRealmId" layout="column">
+			<kibastrap-side-bar></kibastrap-side-bar>
+
+			<div id="goriguard-content-2">
+		  	<users-data-table flex config="dataTableConfig"></users-data-table>
+		  </div>
+		</div>
+
+  </div>
+
+</div>

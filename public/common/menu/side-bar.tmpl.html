@@ -1,0 +1,18 @@
+<md-sidenav class="md-whiteframe-z2" md-component-id="left" md-is-locked-open="true">
+  <md-content ng-controller="kibastrapMenuController">
+    <ul class="side-menu">
+      <li ng-repeat="section in kbstrapCtrl.menu.sections" 
+      		class="parent-list-item"
+          ng-class="{'parentActive' : kbstrapCtrl.isSectionSelected(section)}">
+        <h2 class="menu-heading" ng-if="section.type === 'heading'"
+            id="heading_{{ section.name | nospace }}">
+          {{section}}
+        </h2>
+        <kibastrap-menu-link section="section" 
+          ng-if="section.type === 'link'"></kibastrap-menu-link>
+        <kibastrap-menu-toggle section="section" 
+          ng-if="section.type === 'toggle'"></kibastrap-menu-toggle>
+      </li>
+    </ul>
+  </md-content>
+</md-sidenav>

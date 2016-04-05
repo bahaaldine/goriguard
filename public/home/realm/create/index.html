@@ -1,0 +1,44 @@
+<div layout="row" class="layout layout-row" id="goriguard">
+
+  <div id="goriguard-content" class="createRealm">
+    <md-dialog ng-cloak>
+    <form name="createRealm"> 
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <div class="panel-icon" flex="20"><i class="fa fa-magic"></i></div>
+          <h3 class="md-title">New realm</h3>
+        </div>
+      </md-toolbar>
+      <div layout="column" id="create-realm" class="md-inline-form">        
+        <div class="create-realm-panel" layout="row" layout-align="center center">
+          <div flex="80">
+            <div class="panel-inputs" flex>
+              <md-input-container class="md-block">
+                <div class="md-body-2">Name</div>
+                <input ng-model="realm.name" type="text" name="name">
+              </md-input-container>
+              <md-input-container class="md-block">
+                <div class="md-body-2">Type</div>
+                <md-select ng-model="realm.type">
+                  <md-option value="username_password">Username/password</md-option>
+                  <md-option value="facebook">Facebook</md-option>
+                  <md-option value="github">Github</md-option>
+                  <md-option value="google">Google</md-option>
+                </md-select>
+              </md-input-container>
+            </div>
+          </div> 
+        </div>
+
+        <md-dialog-actions layout="row">
+          <md-button ng-click="cancelRealmCreation($event)">Cancel</md-button>
+          <md-button class="md-primary" ng-click="saveRealm()">Save</md-button>
+        </md-dialog-actions>
+
+      </div>
+
+    </form>
+    </md-dialog>
+  </div>
+
+</div>

@@ -1,0 +1,20 @@
+{
+	"items": [
+		{
+		  "name": "Users",
+		  "type": "link",
+		  "state": "/realm/users",
+		  "icon": "fa fa-tachometer"
+		},{
+		  "name": "Roles",
+		  "type": "link",
+		  "state": "/realm/roles",
+		  "icon": "fa fa-tasks"
+		},{
+		  "name": "Settings",
+		  "type": "link",
+		  "state": "/settings",
+		  "icon": "fa fa-bolt"
+		}
+	]
+}

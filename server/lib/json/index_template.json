@@ -1,0 +1,128 @@
+{
+  "template" : "goriguard",
+  "mappings" : {
+    "realm": {
+      "dynamic_templates": [
+        {
+          "string_fields": {
+            "mapping": {
+              "index": "not_analyzed",
+              "omit_norms": true,
+              "type": "string"
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "_all": {
+        "enabled": true
+      },
+      "properties": {
+        "name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "type": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "created": {
+          "type": "date"
+        },
+        "updated": {
+          "type": "date"
+        },
+        "deleted": {
+          "type": "date"
+        }
+      }  
+    },
+    "user": {
+      "dynamic_templates": [
+        {
+          "string_fields": {
+            "mapping": {
+              "index": "not_analyzed",
+              "omit_norms": true,
+              "type": "string"
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "_all": {
+        "enabled": true
+      },
+      "properties": {
+        "name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "password": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "realm_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "roles": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "created": {
+          "type": "date"
+        },
+        "updated": {
+          "type": "date"
+        },
+        "deleted": {
+          "type": "date"
+        }
+      }  
+    },
+    "role": {
+      "dynamic_templates": [
+        {
+          "string_fields": {
+            "mapping": {
+              "index": "not_analyzed",
+              "omit_norms": true,
+              "type": "string"
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "_all": {
+        "enabled": true
+      },
+      "properties": {
+        "name": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "description": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "realm_id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "created": {
+          "type": "date"
+        },
+        "updated": {
+          "type": "date"
+        },
+        "deleted": {
+          "type": "date"
+        }
+      }  
+    }
+  }
+}

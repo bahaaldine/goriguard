@@ -1,0 +1,21 @@
+<md-dialog aria-label="Delete Realm" ng-cloak>
+  
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <div class="md-title">Delete {{selected.length > 1 ? 'Realms' : 'Realm'}}</div>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <p>
+        Are you sure you want to delete {{selected.length > 1 ? 'these realms' : 'this realm'}}?
+      </p>
+    </div>
+  </md-dialog-content>
+
+  <div class="md-actions" layout="row">
+    <md-button ng-click="cancel()">Cancel</md-button>
+    <md-button ng-click="deleteRealm()" class="md-warn">Yes</md-button>
+  </div>
+</md-dialog>

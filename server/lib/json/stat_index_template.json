@@ -1,0 +1,49 @@
+{
+  "template" : "goriguard-*",
+  "settings" : {
+      "index.number_of_shards" : 1,
+      "index.number_of_replicas" : 0
+  },
+  "mappings" : {
+    "stat": {
+      "dynamic_templates": [
+        {
+          "string_fields": {
+            "mapping": {
+              "index": "not_analyzed",
+              "omit_norms": true,
+              "type": "string"
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "_all": {
+        "enabled": true
+      },
+      "properties": {
+        "faceId": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "faceName": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "faceType": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "timestamp": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "searchTerms": {
+          "type": "string",
+          "index": "not_analyzed"
+        }
+      }        
+    }
+  }
+}

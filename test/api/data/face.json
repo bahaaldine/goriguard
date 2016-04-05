@@ -1,0 +1,55 @@
+{
+   "_index":"facechimp",
+   "_type":"face",
+   "_id":"c82366ed-f7a7-432d-8652-1b72aa28d153",
+   "_version":2,
+   "found":true,
+   "_source":{
+      "name":"APJ Call face",
+      "type":"fullText",
+      "cluster":{
+         "clusterId":"be748bc4-98bf-4df6-b470-3ab4095a0082",
+         "name":"LocalSec",
+         "protocol":"HTTP",
+         "hostname":"localhost",
+         "port":"9200",
+         "security":{
+            "username":"bahaaldine",
+            "password":"bazarmi"
+         },
+         "url":"bahaaldine:bazarmi@localhost:9200",
+         "created":"2016-01-13T12:03:16.157Z"
+      },
+      "indices":[
+         "arcole"
+      ],
+      "views":{
+         "images":true,
+         "map":true
+      },
+      "search":{
+         "inputs":[
+            "file.content"
+         ],
+         "outputs":{
+            "title":"Titre",
+            "content":"file.content",
+            "url":"url",
+            "image":"image",
+            "location":"location"
+         },
+         "features":[
+            "Highlight",
+            "Suggester"
+         ],
+         "facets":[
+            "Informations_generales_Domaine_d'activites"
+         ],
+         "pageSize":10
+      },
+      "status":"Ready to run",
+      "created":"2016-01-15T00:12:36.832Z",
+      "query":"{\"index\":[\"arcole\"],\"body\":{\"from\":0,\"size\":10,\"fields\":[\"Titre\",\"file.content\",\"url\",\"image\",\"location\"],\"query\":{\"bool\":{\"must\":[{\"multi_match\":{\"query\":\"\",\"fuzziness\":\"AUTO\",\"fields\":[\"file.content^1\"]}}]}},\"aggs\":{\"Informations_generales_Domaine_d'activites\":{\"terms\":{\"field\":\"Informations_generales_Domaine_d'activites\"}}},\"highlight\":{\"fields\":{\"file.content\":{\"fragment_size\":300}}},\"suggest\":{\"text\":\"\",\"simple_phrase\":{\"phrase\":{\"field\":\"file.content\",\"size\":1,\"max_errors\":3,\"direct_generator\":[{\"field\":\"file.content\",\"suggest_mode\":\"always\",\"min_word_length\":4}],\"highlight\":{\"pre_tag\":\"<em >\",\"post_tag\":\"</em>\"}}}}}}",
+      "deleted":"2016-01-20T17:26:35.500Z"
+   }
+}

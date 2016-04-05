@@ -1,0 +1,41 @@
+<div layout="row" class="layout layout-row" id="goriguard">
+
+  <div id="goriguard-content" class="createRole">
+    <md-dialog ng-cloak>
+    <form name="createRole"> 
+      <md-toolbar>
+        <div class="md-toolbar-tools">
+          <div class="panel-icon" flex="20"><i class="fa fa-magic"></i></div>
+          <h3 class="md-title">Edit Role</h3>
+        </div>
+      </md-toolbar>
+      <div layout="column" id="create-role" class="md-inline-form">        
+        <div class="create-role-panel" layout="row" layout-align="center center">
+          <div flex="80">
+            <div class="panel-inputs" flex>
+              <md-input-container class="md-block">
+                <div class="md-body-2">Name</div>
+                <input ng-model="role.name" type="text" name="name">
+              </md-input-container>
+            </div>
+            <div class="panel-inputs" flex>
+              <md-input-container class="md-block">
+                <div class="md-body-2">Description</div>
+                <input ng-model="role.description" type="text" name="description">
+              </md-input-container>
+            </div>
+          </div> 
+        </div>
+
+        <md-dialog-actions layout="row">
+          <md-button ng-click="cancelRoleCreation($event)">Cancel</md-button>
+          <md-button class="md-primary" ng-click="saveRole()">Save</md-button>
+        </md-dialog-actions>
+
+      </div>
+
+    </form>
+    </md-dialog>
+  </div>
+
+</div>

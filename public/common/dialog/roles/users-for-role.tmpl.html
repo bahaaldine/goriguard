@@ -1,0 +1,21 @@
+<md-dialog aria-label="Delete Role" ng-cloak>
+  
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <div class="md-title">Role in use</div>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <p>
+        Role <b>{{selectedItems[0]._source.name}}</b> is used by the folowing {{users.length > 1 ? 'users' : 'user'}} : <br /><b>{{users.join()}}</b>.
+        <br /><br />Please remove role from user before.
+      </p>
+    </div>
+  </md-dialog-content>
+
+  <div class="md-actions" layout="row">
+    <md-button ng-click="hide()" class="md-warn">Ok</md-button>
+  </div>
+</md-dialog>
