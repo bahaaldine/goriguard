@@ -1,29 +1,46 @@
 var _ = require('lodash'),
-    moment = require('moment');
+    moment = require('moment'),
+    crypto = require('crypto');
 
 module.exports.createUser = function (server, req, userId) {
 	var client = server.plugins.elasticsearch.client;
   var config = server.config();
 	var index  = config.get('goriguard.indexPattern');
-    
+
   var realmId  = req.params.realmId;
 
-  var name     = req.payload.name;
-  var password = req.payload.password;
-  var roles    = req.payload.roles;
+  var firstname = req.payload.firstname;
+  var lastname  = req.payload.lastname;
+  var email     = req.payload.email;
+
+  var shasum = crypto.createHash('sha1');
+  shasum.update(email+req.payload.password);
+  var password = new Buffer(shasum.digest('hex')).toString('base64');
+
+  var roles     = req.payload.roles;
 
   return function() {
-  	return client.index({
-  		id: userId,
-      index: index,
-      type: 'user',
-      body: {
-        name: name,
-        password: password,
-        roles: roles,
-        realm_id: realmId,
-        created: moment.utc().toISOString()
-      }
+    return client.get({
+        id: realmId,
+        index: index,
+        type: 'realm'
+    }).then(function(realm) {
+      var token = new Buffer(password+realm._source.key).toString('base64');
+
+      return client.index({
+        id: userId,
+        index: index,
+        type: 'user',
+        body: {
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          token: token,
+          roles: roles,
+          realm_id: realmId,
+          created: moment.utc().toISOString()
+        }
+      });
     });
   }
 }
@@ -115,38 +132,42 @@ module.exports.updateUser = function (server, req) {
     var config = server.config();
     var index = config.get('goriguard.indexPattern');
     
-    var userId   = req.payload.userId;
-    var name     = req.payload.name;
-    var password = req.payload.password;
-    var roles    = req.payload.roles;
+    var realmId = req.params.realmId;
 
-    console.log({
-      id: userId,
-      index: index,
-      type: 'user',
-      body: {
-        doc: {
-          name: name,
-          password: password,
-          roles: req.payload.roles,
-          updated: moment.utc().toISOString()
-        }
-      }
-    });
+    var userId    = req.payload.userId;
+    var firstname = req.payload.firstname;
+    var lastname  = req.payload.lastname;
+    var email     = req.payload.email;
+    
+    var shasum = crypto.createHash('sha1');
+    shasum.update(email+req.payload.password);
+    var password = new Buffer(shasum.digest('hex')).toString('base64');
+    
+    var roles     = req.payload.roles;
 
     return function() {
-      return client.update({
-        id: userId,
+
+      return client.get({
+        id: realmId,
         index: index,
-        type: 'user',
-        body: {
-          doc: {
-            name: name,
-            password: password,
-            roles: req.payload.roles,
-            updated: moment.utc().toISOString()
+        type: 'realm'
+      }).then(function(realm) {
+        var token = new Buffer(password+realm._source.key).toString('base64');
+          return client.update({
+          id: userId,
+          index: index,
+          type: 'user',
+          body: {
+             doc: {
+              firstname: firstname,
+              lastname: lastname,
+              email: email,
+              token: token,
+              roles: req.payload.roles,
+              updated: moment.utc().toISOString()
+            }
           }
-        }
+        });
       });
     }
 }
@@ -214,5 +235,43 @@ module.exports.deleteUsersById = function (server, req) {
     console.log(request);
     
     return client.bulk(request);
+  }
+}
+
+module.exports.creatSession = function (server, req) {
+  var client = server.plugins.elasticsearch.client;
+  var config = server.config();
+  var index = config.get('goriguard.indexPattern');
+    
+  var email = req.query.email;
+  var token = req.query.token;
+
+  return function() {
+    return client.index({ 
+      index: index,
+      type: 'user',
+      body: {
+        query: {
+          bool: {
+            must: [
+              {
+                term: {
+                  email: {
+                    value: email
+                  }
+                }
+              },
+              {
+                term: {
+                  token: {
+                    value: token
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    });
   }
 }

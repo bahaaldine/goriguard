@@ -7,26 +7,26 @@ module.exports.createRealm = function (server, req, realmId) {
   var config = server.config();
 	var index = config.get('goriguard.indexPattern');
     
-    var name = req.payload.name;
-    var type = req.payload.type;
+  var name = req.payload.name;
+  var type = req.payload.type;
 
-    var shasum = crypto.createHash('sha1');
-    shasum.update(req.payload.key);
-    var key = new Buffer(shasum.digest('hex')).toString('base64');
+  var shasum = crypto.createHash('sha1');
+  shasum.update(req.payload.key);
+  var key = new Buffer(shasum.digest('hex')).toString('base64');
 
-    return function() {
-    	return client.index({
-    		id: realmId,
-            index: index,
-            type: 'realm',
-            body: {
-                name: name,
-                type: type,
-                key: key,
-                created: moment.utc().toISOString()
-            }
-        });
-    }
+  return function() {
+  	return client.index({
+  		id: realmId,
+      index: index,
+      type: 'realm',
+      body: {
+        name: name,
+        type: type,
+        key: key,
+        created: moment.utc().toISOString()
+      }
+    });
+  }
 }
 
 module.exports.deleteRealmsById = function (server, realms) {
@@ -58,25 +58,25 @@ module.exports.deleteRealmsById = function (server, realms) {
 }
 
 module.exports.getRealmById = function (server, req) {
-    var client = server.plugins.elasticsearch.client;
-    var config = server.config();
-    var index = config.get('goriguard.indexPattern');
+  var client = server.plugins.elasticsearch.client;
+  var config = server.config();
+  var index = config.get('goriguard.indexPattern');
 
-    var realmId = req.params.realmId;
+  var realmId = req.params.realmId;
 
-    return function() {
-        return client.get({
-            id: realmId,
-            index: index,
-            type: 'realm'
-        });
-    }
+  return function() {
+    return client.get({
+      id: realmId,
+      index: index,
+      type: 'realm'
+    });
+  }
 }
 
 module.exports.getRealms = function (server, req) {
-    var client = server.plugins.elasticsearch.client;
+  var client = server.plugins.elasticsearch.client;
   var config = server.config();
-    var index = config.get('goriguard.indexPattern');
+  var index = config.get('goriguard.indexPattern');
   
   return function() {
     var request = { 

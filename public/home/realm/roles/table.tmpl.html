@@ -37,8 +37,8 @@
         <tbody>
           <tr md-auto-select ng-repeat="role in itemsList.data track by role._id">
             <td>{{role._source.created}}</td>
-            <td><a href="http://localhost:9200/goriguard/role/{{role._id}}" target="_blank">{{role._source.name}}</a></td>
-            <td class="item-status {{role._source.description}}">{{role._source.description}}</td>
+            <td>{{role._source.name}}</td>
+            <td>{{role._source.description}}</td>
           </tr>
         </tbody>
       </table>

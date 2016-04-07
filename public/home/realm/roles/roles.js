@@ -123,7 +123,7 @@ require('ui/modules')
 			if ( angular.isDefined(routeParams.realmId) ) {
 	    	$scope.selectedRealmId = routeParams.realmId;
 	    	getRealms();
-				$scope.deferred = goriguardApiService.getRealmUsers($routeParams.realmId, $scope.listQuery).then($scope.updateTable());
+				$scope.deferred = goriguardApiService.getRealmRoles($routeParams.realmId, $scope.listQuery).then($scope.updateTable());
 	    }
     }, true);
 	 }

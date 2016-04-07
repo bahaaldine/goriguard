@@ -12,14 +12,14 @@
     "gulp-lab": "^1.0.6",
     "gulp-tar": "^1.7.0",
     "gulp-util": "^3.0.7",
-    "lodash": "^3.10.1",
-    "mkdirp": "^0.5.1",
-    "rimraf": "^2.4.4",
-    "rsync": "^0.4.0",
-    "sinon": "^1.17.3",
     "hapi": "^8.8.1",
     "lab": "^8.2.0",
-    "mocha": "^2.3.0"
+    "lodash": "^3.10.1",
+    "mkdirp": "^0.5.1",
+    "mocha": "^2.3.0",
+    "rimraf": "^2.4.4",
+    "rsync": "^0.4.0",
+    "sinon": "^1.17.3"
   },
   "dependencies": {
     "angular": "1.4.7",
@@ -28,10 +28,14 @@
     "angular-ellipsis": "^1.0.1",
     "angular-material": "1.0.0",
     "animate.css": "3.4.0",
+    "boom": "^3.1.2",
     "dateformat": "1.0.12",
     "elasticsearch": "^10.0.1",
     "font-awesome": "4.5.0",
     "joi": "7.2.1",
     "uuid": "2.0.1"
+  },
+  "scripts": {
+    "test": "lab"
   }
 }

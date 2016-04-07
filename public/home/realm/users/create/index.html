@@ -14,11 +14,19 @@
           <div flex="80">
             <div class="panel-inputs" flex>
               <md-input-container class="md-block">
-                <div class="md-body-2">Name</div>
-                <input ng-model="user.name" type="text" name="name">
+                <div class="md-body-2">Firstname</div>
+                <input ng-model="user.firstname" type="text" name="firstname">
+              </md-input-container>
+              <md-input-container class="md-block">
+                <div class="md-body-2">Lastname</div>
+                <input ng-model="user.lastname" type="text" name="lastname">
               </md-input-container>
             </div>
             <div class="panel-inputs" flex>
+              <md-input-container class="md-block">
+                <div class="md-body-2">Email (username)</div>
+                <input ng-model="user.email" type="email" name="text">
+              </md-input-container>
               <md-input-container class="md-block">
                 <div class="md-body-2">Password</div>
                 <input ng-model="user.password" type="password" name="password">

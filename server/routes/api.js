@@ -31,7 +31,10 @@ get_roles		       	= require('./role/get_roles.js'),
 get_role_by_id      = require('./role/get_role_by_id.js'),
 delete_roles_by_id  = require('./role/delete_roles_by_id.js'),
 update_role         = require('./role/update_role.js'),
-create_role         = require('./role/create_role.js');
+create_role         = require('./role/create_role.js'),
+
+create_session      = require('./session/create_session.js'),
+get_sessions        = require('./session/get_sessions.js');
 
 module.exports = function (server) {
 
@@ -52,4 +55,7 @@ module.exports = function (server) {
   server = delete_roles_by_id(server);
   server = update_role(server);
   server = create_role(server);
+
+  server = create_session(server);
+  server = get_sessions(server); 
 }

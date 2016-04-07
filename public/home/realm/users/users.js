@@ -155,8 +155,16 @@ function createUserController ($scope, goriguardApiService,
   	var message = "";
 
   	// TODO: better user validation (ValidatorService or Directive promise)
-  	if ( angular.isUndefined($scope.user.name) ) {
-  		message += "User name is required<br/> ";
+  	if ( angular.isUndefined($scope.user.firstname) ) {
+  		message += "Firstname is required<br/> ";
+  	}
+
+  	if ( angular.isUndefined($scope.user.lastname) ) {
+  		message += "Lastname is required<br/> ";
+  	}
+
+  	if ( angular.isUndefined($scope.user.email) ) {
+  		message += "Email is required<br/> ";
   	}
 
 		if ( angular.isUndefined($scope.user.password) ) {
@@ -175,7 +183,9 @@ function createUserController ($scope, goriguardApiService,
   		console.info("creating user");
 
   		var user = {
-  			name: $scope.user.name,
+  			firstname: $scope.user.firstname,
+  			lastname: $scope.user.lastname,
+  			email: $scope.user.email,
   			password: $scope.user.password,
   			roles: $scope.user.roles,
   			realmId: realmId
@@ -226,8 +236,16 @@ function editUserController ($scope, goriguardApiService,
   	var message = "";
 
   	// TODO: better user validation (ValidatorService or Directive promise)
-  	if ( angular.isUndefined($scope.user.name) ) {
-  		message += "User name is required<br/> ";
+  		if ( angular.isUndefined($scope.user.firstname) ) {
+  		message += "Firstname is required<br/> ";
+  	}
+
+  	if ( angular.isUndefined($scope.user.lastname) ) {
+  		message += "Lastname is required<br/> ";
+  	}
+
+  	if ( angular.isUndefined($scope.user.email) ) {
+  		message += "Email is required<br/> ";
   	}
 
 		if ( angular.isUndefined($scope.user.password) ) {
@@ -246,7 +264,9 @@ function editUserController ($scope, goriguardApiService,
 
   		var user = {
   			userId: userId,
-  			name: $scope.user.name,
+  			firstname: $scope.user.firstname,
+  			lastname: $scope.user.lastname,
+  			email: $scope.user.email,
   			password: $scope.user.password,
   			roles: $scope.user.roles,
   			realmId: realmId
