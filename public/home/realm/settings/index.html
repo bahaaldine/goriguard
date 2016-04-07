@@ -11,14 +11,14 @@
 				<div layout="column" id="edit-realm" class="md-inline-form">        
 					<h2 class="md-title flex-20" flex="20"><i class="fa fa-tasks"></i>Realm Settings</h2>
 					<div layout="row" layout-align="start center">
-						<div class="md-body-2" layout-padding>Name</div>
-						<md-input-container class="name" layout-padding>
+						<div class="md-body-2" layout-padding flex="10">Name</div>
+						<md-input-container class="name">
               <input ng-model="realm.name" type="text" name="name">
             </md-input-container>
 					</div>
 					<div layout="row" layout-align="start center">
-						<div class="md-body-2" layout-padding>Type</div>
-						<md-input-container layout-padding>
+						<div class="md-body-2" layout-padding flex="10">Type</div>
+						<md-input-container>
               <md-select ng-model="realm.type">
                 <md-option value="username_password">Username/password</md-option>
                 <md-option value="facebook">Facebook</md-option>
@@ -27,6 +27,13 @@
               </md-select>
             </md-input-container>
 					</div>
+					<div layout="row" layout-align="start center">
+						<div class="md-body-2" layout-padding flex="10">Key</div>
+						<md-input-container flex="40" class="key">
+              <textarea ng-model="realm.key" type="text" name="key"></textarea>
+            </md-input-container>
+					</div>
+
 					<md-dialog-actions layout="row" layout-align="end center">
 	          <md-button class="md-primary" ng-click="saveRealm()">Save</md-button>
 	        </md-dialog-actions>

@@ -61,6 +61,10 @@ function createRealmController ($scope, goriguardApiService, $location, kibastra
   		message += "Realm type is required<br/> ";
   	}
 
+    if ( angular.isUndefined($scope.realm.key) ) {
+      message += "Realm key is required<br/> ";
+    }
+
   	// TODO: better realm validation alert
   	if ( message.length > 0 ) {
   		kibastrapToastService.showErrorToast(message);
@@ -69,7 +73,8 @@ function createRealmController ($scope, goriguardApiService, $location, kibastra
 
   		var realm = {
   			name: $scope.realm.name,
-  			type: $scope.realm.type
+  			type: $scope.realm.type,
+        key: $scope.realm.key
   		}
 
 			goriguardApiService.createRealm(realm).then(function (resp) {
@@ -79,7 +84,7 @@ function createRealmController ($scope, goriguardApiService, $location, kibastra
 	    		$scope.message = "";
 	    		$mdDialog.hide(resp.data.realmId);
 			  }, 1000);
-    	},function(err){
+    	},function(err) {
     		kibastrapToastService.showErrorToast("Realm creation Failed !");
     	});   
   	}

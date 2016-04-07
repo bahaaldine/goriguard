@@ -18,6 +18,7 @@ require('ui/modules')
 	    	goriguardApiService.getRealm($scope.selectedRealmId).then(function(response) {
 		    	$scope.realm = response.data.realm._source;
 		    	$scope.realm._id = response.data.realm._id;
+		    	console.log($scope.realm);
 		    });
 	    }
 
@@ -53,7 +54,8 @@ require('ui/modules')
 		  		var realm = {
 		  			realmId: $scope.selectedRealmId,
 		  			name: $scope.realm.name,
-		  			type: $scope.realm.type
+		  			type: $scope.realm.type,
+		  			key: $scope.realm.key
 		  		}
 
 					goriguardApiService.updateRealm(realm).then(function (resp) {
@@ -63,6 +65,7 @@ require('ui/modules')
 			    		$scope.message = "";
 			    		$mdDialog.hide();
 			    		getRealms();
+			    		getRealm();
 					  }, 1000);
 		    	},function(err){
 		    		kibastrapToastService.showErrorToast("Realm update Failed !");

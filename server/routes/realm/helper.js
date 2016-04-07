@@ -1,5 +1,6 @@
 var _ = require('lodash'),
-    moment = require('moment');
+    moment = require('moment'),
+    crypto = require('crypto');
 
 module.exports.createRealm = function (server, req, realmId) {
 	var client = server.plugins.elasticsearch.client;
@@ -9,6 +10,10 @@ module.exports.createRealm = function (server, req, realmId) {
     var name = req.payload.name;
     var type = req.payload.type;
 
+    var shasum = crypto.createHash('sha1');
+    shasum.update(req.payload.key);
+    var key = new Buffer(shasum.digest('hex')).toString('base64');
+
     return function() {
     	return client.index({
     		id: realmId,
@@ -17,6 +22,7 @@ module.exports.createRealm = function (server, req, realmId) {
             body: {
                 name: name,
                 type: type,
+                key: key,
                 created: moment.utc().toISOString()
             }
         });
@@ -152,18 +158,23 @@ module.exports.updateRealm = function (server, req) {
     var name    = req.payload.name;
     var type    = req.payload.type;
 
+    var shasum = crypto.createHash('sha1');
+    shasum.update(req.payload.key);
+    var key = new Buffer(shasum.digest('hex')).toString('base64');
+
     return function() {
-        return client.update({
-            id: realmId,
-            index: index,
-            type: 'realm',
-            body: {
-                doc: {
-                    name: name,
-                    type: type,
-                    updated: moment.utc().toISOString()
-                }
-            }
-        });
+      return client.update({
+        id: realmId,
+        index: index,
+        type: 'realm',
+        body: {
+          doc: {
+            name: name,
+            type: type,
+            key: key,
+            updated: moment.utc().toISOString()
+          }
+        }
+      });
     }
 }
