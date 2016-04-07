@@ -31,6 +31,8 @@ require('plugins/goriguard/home/realm/roles/roles.js');
 require('plugins/goriguard/home/realm/roles/roles.less');
 require('plugins/goriguard/home/realm/roles/create/create.less');
 
+require('plugins/goriguard/home/realm/settings/settings.js');
+require('plugins/goriguard/home/realm/settings/settings.less');
 
 require('ui/routes').enable();
 require('ui/routes')
@@ -45,6 +47,10 @@ require('ui/routes')
   .when('/realm/roles', {
     template: require('plugins/goriguard/home/realm/roles/index.html'),
     controller: 'realmRolesController'
+  })
+  .when('/realm/settings', {
+    template: require('plugins/goriguard/home/realm/settings/index.html'),
+    controller: 'realmSettingsController'
   });
 
 require('ui/chrome')
@@ -59,7 +65,7 @@ require('ui/modules')
 .config(function($mdThemingProvider) {
    // Extend the red theme with a few different colors
   var goriguard = $mdThemingProvider.extendPalette('brown', {
-    'A200': '#a95f27'
+    'A200': '#095d70'
   });
   // Register the new color palette map with the name <code>neonRed</code>
   $mdThemingProvider.definePalette('goriguard', goriguard);

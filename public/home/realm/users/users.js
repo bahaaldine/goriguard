@@ -26,9 +26,7 @@ require('ui/modules')
 	  	page: 1
 	  }
 
-    if ( angular.isDefined($routeParams.realmId) ) {
-    	$scope.selectedRealmId = $routeParams.realmId;
-    }
+	  $scope.routeParams = $routeParams;
 
     var getRealms = function () {
       goriguardApiService.getRealms().then(function(response){
@@ -42,7 +40,6 @@ require('ui/modules')
         $scope.itemsList.data = resp.data.hits; 
 	    }
 	  };
-	  $scope.deferred = goriguardApiService.getRealmUsers($routeParams.realmId, $scope.listQuery).then($scope.updateTable());
 
 	  $scope.search = function (query) {
 	  	$scope.listQuery.query = query;
@@ -112,7 +109,13 @@ require('ui/modules')
 	    });
 	  }
 
-	  getRealms();
+	  $scope.$watch('routeParams', function(routeParams, oldVal) {
+			if ( angular.isDefined(routeParams.realmId) ) {
+	    	$scope.selectedRealmId = routeParams.realmId;
+	    	getRealms();
+				$scope.deferred = goriguardApiService.getRealmUsers($routeParams.realmId, $scope.listQuery).then($scope.updateTable());
+	    }
+    }, true);
 
 	 }
   ]);
@@ -153,16 +156,16 @@ function createUserController ($scope, goriguardApiService,
 
   	// TODO: better user validation (ValidatorService or Directive promise)
   	if ( angular.isUndefined($scope.user.name) ) {
-  		message += "<br/> User name is required";
+  		message += "User name is required<br/> ";
   	}
 
 		if ( angular.isUndefined($scope.user.password) ) {
-  		message += "<br/> User password is required";
+  		message += "User password is required<br/> ";
   	}
 
   	if ( angular.isUndefined($scope.user.roles)
   		&& $scope.user.roles.length > 0 ) {
-  		message += "<br/> At least one role is required";
+  		message += "At least one role is required<br/> ";
   	}
 
   	// TODO: better user validation alert
@@ -224,16 +227,15 @@ function editUserController ($scope, goriguardApiService,
 
   	// TODO: better user validation (ValidatorService or Directive promise)
   	if ( angular.isUndefined($scope.user.name) ) {
-  		message += "<br/> User name is required";
+  		message += "User name is required<br/> ";
   	}
 
 		if ( angular.isUndefined($scope.user.password) ) {
-  		message += "<br/> User password is required";
+  		message += "User password is required<br/> ";
   	}
 
   	if ( angular.isUndefined($scope.user.roles)
   		&& $scope.user.roles.length > 0 ) {
-  		message += "<br/> At least one role is required";
   	}
 
   	// TODO: better user validation alert

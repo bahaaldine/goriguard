@@ -24,7 +24,8 @@ require('ui/modules')
 
   	$scope.deleteRealm = function() {
   		console.info("realm deleted");
-  		kibastrapDialogService.hide(goriguardApiService.deleteRealm($scope.selectedItems));
+  		console.log($scope.selectedItems);
+  		kibastrapDialogService.hide(goriguardApiService.deleteRealm([$scope.selectedItems]));
   	}
 
 	}]);

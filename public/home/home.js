@@ -2,35 +2,42 @@ var dateFormat = require('dateformat');
 
 require('ui/modules')
 	.get('app/goriguard', ['ngMaterial'])
-  .controller('homeController', ['$scope', 'goriguardApiService', '$mdDialog', '$mdMedia', '$location',
-   function ($scope, goriguardApiService, $mdDialog, $mdMedia, $location) {
-    console.info('home controller loaded');
-    
-    var getRealms = function () {
-      goriguardApiService.getRealms().then(function(response){
-      	$scope.realms = response.data.hits;
-      });
-    }
+  .directive('realmNavBar', ['goriguardApiService', '$mdDialog', '$mdMedia', '$location',
+   function (goriguardApiService, $mdDialog, $mdMedia, $location) {
+    return {
+      replace: true,
+      template: require('plugins/goriguard/common/navbar/realm.nav-bar.tmpl.html'),
+      link: function($scope, $element, attrs) {
+        var getRealms = function () {
+          goriguardApiService.getRealms().then(function(response){
+            $scope.realms = response.data.hits;
+          });
+        }
 
-    $scope.openRealm = function(realmId) {
-      $location.path('/realm/users').search({realmId: realmId});
-    }
+        $scope.createRealm = function(ev) {
+          console.info('createRealm started');
+          $mdDialog.show({
+            controller: createRealmController,
+            template: require('plugins/goriguard/home/realm/create/index.html'),
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose:true
+          })
+          .then(function(realmId) {
+            $location.path('/realm/users').search({realmId: realmId});
+          });
+        };
 
-    $scope.createRealm = function(ev) {
-      console.info('createRealm started');
-	    $mdDialog.show({
-	      controller: createRealmController,
-	      template: require('plugins/goriguard/home/realm/create/index.html'),
-	      parent: angular.element(document.body),
-	      targetEvent: ev,
-	      clickOutsideToClose:true
-	    })
-	    .then(function(answer) {
-	      getRealms();
-	    });
+        $scope.openRealm = function(realmId) {
+          $location.path('/realm/users').search({realmId: realmId});
+        }
+
+        getRealms();
+      }
     };
-
-    getRealms();
+  }])
+  .controller('homeController', ['$scope',
+   function ($scope) {    
 	 }
   ]);
 
@@ -47,11 +54,11 @@ function createRealmController ($scope, goriguardApiService, $location, kibastra
 
   	// TODO: better realm validation (ValidatorService or Directive promise)
   	if ( angular.isUndefined($scope.realm.name) ) {
-  		message += "<br/> Realm name is required";
+  		message += "Realm name is required<br/> ";
   	}
 
 		if ( angular.isUndefined($scope.realm.type) ) {
-  		message += "<br/> Realm type is required";
+  		message += "Realm type is required<br/> ";
   	}
 
   	// TODO: better realm validation alert
@@ -70,7 +77,7 @@ function createRealmController ($scope, goriguardApiService, $location, kibastra
   			setTimeout(function () {
 	    		kibastrapToastService.showSuccessToast("Realm created !");
 	    		$scope.message = "";
-	    		$mdDialog.hide();
+	    		$mdDialog.hide(resp.data.realmId);
 			  }, 1000);
     	},function(err){
     		kibastrapToastService.showErrorToast("Realm creation Failed !");

@@ -26,9 +26,7 @@ require('ui/modules')
 	  	page: 1
 	  }
 
-    if ( angular.isDefined($routeParams.realmId) ) {
-    	$scope.selectedRealmId = $routeParams.realmId;
-    }
+	  $scope.routeParams = $routeParams;
 
     var getRealms = function () {
       goriguardApiService.getRealms().then(function(response){
@@ -42,7 +40,6 @@ require('ui/modules')
         $scope.itemsList.data = resp.data.hits; 
 	    }
 	  };
-	  $scope.deferred = goriguardApiService.getRealmRoles($routeParams.realmId, $scope.listQuery).then($scope.updateTable());
 
 	  $scope.search = function (query) {
 	  	$scope.listQuery.query = query;
@@ -122,7 +119,13 @@ require('ui/modules')
 	    });
 	  }
 
-	  getRealms();
+	  $scope.$watch('routeParams', function(routeParams, oldVal) {
+			if ( angular.isDefined(routeParams.realmId) ) {
+	    	$scope.selectedRealmId = routeParams.realmId;
+	    	getRealms();
+				$scope.deferred = goriguardApiService.getRealmUsers($routeParams.realmId, $scope.listQuery).then($scope.updateTable());
+	    }
+    }, true);
 	 }
   ]);
 
@@ -139,11 +142,11 @@ function createRoleController ($scope, goriguardApiService, $location, kibastrap
 
   	// TODO: better role validation (ValidatorService or Directive promise)
   	if ( angular.isUndefined($scope.role.name) ) {
-  		message += "<br/> Role name is required";
+  		message += "Role name is required<br/>";
   	}
 
 		if ( angular.isUndefined($scope.role.description) ) {
-  		message += "<br/> Role description is required";
+  		message += "Role description is required<br/>";
   	}
 
   	// TODO: better role validation alert
@@ -187,11 +190,11 @@ function editRoleController ($scope, goriguardApiService, $location, kibastrapTo
 
   	// TODO: better role validation (ValidatorService or Directive promise)
   	if ( angular.isUndefined($scope.role.name) ) {
-  		message += "<br/> Role name is required";
+  		message += "Role name is required<br/> ";
   	}
 
 		if ( angular.isUndefined($scope.role.description) ) {
-  		message += "<br/> Role description is required";
+  		message += "Role description is required<br/> ";
   	}
 
   	// TODO: better role validation alert

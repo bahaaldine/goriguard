@@ -13,7 +13,7 @@
 		},{
 		  "name": "Settings",
 		  "type": "link",
-		  "state": "/settings",
+		  "state": "/realm/settings",
 		  "icon": "fa fa-bolt"
 		}
 	]

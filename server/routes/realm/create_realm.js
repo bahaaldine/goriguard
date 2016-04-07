@@ -21,7 +21,7 @@ module.exports = function (server) {
           realmId: realmId
         });
 
-        reply({status: 'realm created', link: 'http://localhost:9200/'+index+'/realm/'+realmId+'/'});
+        reply({status: 'realm created', realmId: realmId, link: 'http://localhost:9200/'+index+'/realm/'+realmId+'/'});
       })
       .catch(function(err){
         reply(Boom.badRequest(err.name + ': ' + err.message));

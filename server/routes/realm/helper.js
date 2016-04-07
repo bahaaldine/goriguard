@@ -24,9 +24,11 @@ module.exports.createRealm = function (server, req, realmId) {
 }
 
 module.exports.deleteRealmsById = function (server, realms) {
-    var client = server.plugins.elasticsearch.client;
+  var client = server.plugins.elasticsearch.client;
   var config = server.config();
-    var index = config.get('goriguard.indexPattern');
+  var index = config.get('goriguard.indexPattern');
+
+  console.log(realms)
 
   return function() {   
     var bulkArray = [];
@@ -40,10 +42,12 @@ module.exports.deleteRealmsById = function (server, realms) {
     });
 
     var request = { 
-            body: bulkArray
-        };
-        
-        return client.bulk(request);
+      body: bulkArray
+    };
+    
+    console.log(request);
+
+    return client.bulk(request);
   }
 }
 
@@ -145,8 +149,8 @@ module.exports.updateRealm = function (server, req) {
     var index = config.get('goriguard.indexPattern');
     
     var realmId = req.payload.realmId;
-    var name = req.payload.name;
-    var type = req.payload.type;
+    var name    = req.payload.name;
+    var type    = req.payload.type;
 
     return function() {
         return client.update({

@@ -1,6 +1,6 @@
 <md-dialog aria-label="Delete Realm" ng-cloak>
   
-  <md-toolbar>
+  <md-toolbar class="md-warn">
     <div class="md-toolbar-tools">
       <div class="md-title">Delete {{selected.length > 1 ? 'Realms' : 'Realm'}}</div>
     </div>
@@ -9,13 +9,16 @@
   <md-dialog-content>
     <div class="md-dialog-content">
       <p>
-        Are you sure you want to delete {{selected.length > 1 ? 'these realms' : 'this realm'}}?
+        Are you sure you want to delete this realm?
       </p>
+      <md-input-container class="md-block">
+        <input ng-model="name" placeholder="Type the realm name in" type="text" name="name">
+      </md-input-container>
     </div>
   </md-dialog-content>
 
   <div class="md-actions" layout="row">
     <md-button ng-click="cancel()">Cancel</md-button>
-    <md-button ng-click="deleteRealm()" class="md-warn">Yes</md-button>
+    <md-button ng-click="deleteRealm()" ng-if="name == selectedItems.name" class="md-warn">Yes</md-button>
   </div>
 </md-dialog>
