@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main" unless="${validate.skip}">
+  <pathconvert dirsep="/" property="validate.patternsFound" pathsep="&#10;" setonempty="false">
+    <fileset dir="/Users/bahaaldine/Dropbox/elastic/plugins/shield/shield-custom-realm-example">
+      <include name="**/*.java"/>
+      <include name="**/*.py"/>
+      <include name="**/*.txt"/>
+      <include name="**/*.xml"/>
+      <include name="**/*.rb"/>
+      <include name="**/*.pl"/>
+      <exclude name="**/org/elasticsearch/cluster/routing/shard_routes.txt"/>
+      <exclude name="**/build/**/*"/>
+      <exclude name="**/target/**/*"/>
+      <exclude name="**/.metadata/**/*"/>
+      <exclude name="**/.idea/**/*"/>
+      <exclude name="**/eclipse-build/**/*"/>
+      <or>
+        <containsregexp expression="\t" casesensitive="no"/>
+        <containsregexp expression="\bno(n|)commit\b" casesensitive="no"/>
+      </or>
+    </fileset>
+    <map from="/Users/bahaaldine/Dropbox/elastic/plugins/shield/shield-custom-realm-example/" to="* "/>
+  </pathconvert>
+  <fail if="validate.patternsFound">The following files contain tabs or
+                                        nocommits:
+${validate.patternsFound}</fail>
+</target>
+</project>
