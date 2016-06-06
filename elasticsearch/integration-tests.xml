@@ -16,7 +16,7 @@
   ~ from Elasticsearch Incorporated.
   -->
 
-<project name="shield-example-realm"
+<project name="shield-goriguard-custom-realm"
          xmlns:ac="antlib:net.sf.antcontrib">
 
   <import file="${elasticsearch.integ.antfile.default}"/>
@@ -77,13 +77,10 @@
     <startup-elasticsearch>
       <additional-args>
         <arg value="-Des.shield.authc.realms.custom.order=0"/>
-        <arg value="-Des.shield.authc.realms.custom.type=custom"/>
-        <arg value="-Des.shield.authc.realms.custom.users.user1.password=changeme"/>
-        <arg value="-Des.shield.authc.realms.custom.users.user1.roles=admin"/>
-        <arg value="-Des.shield.authc.realms.custom.users.user2.password=changeme"/>
-        <arg value="-Des.shield.authc.realms.custom.users.user2.roles=admin"/>
-        <arg value="-Des.shield.authc.realms.custom.users.user3.password=changeme"/>
-        <arg value="-Des.shield.authc.realms.custom.users.user3.roles=admin"/>
+        <arg value="-Des.shield.authc.realms.custom.type=goriguard"/>
+        <arg value="-Des.shield.authc.realms.custom.goriguard.url=https://localhost:5601"/>
+        <arg value="-Des.shield.authc.realms.custom.goriguard.realm.id=80ccb67c-6d30-497c-a47f-f4edfdcb03b2"/>
+        <arg value="-Des.shield.authc.realms.custom.goriguard.realm.key=NmZiNTFmYjM0M2NjM2RmZDNkYjY4OWYyYTNkMGM1MmRiMWUyMTU0ZA=="/>
         <arg value="-Des.shield.authc.realms.esusers.order=1"/>
         <arg value="-Des.shield.authc.realms.esusers.type=esusers"/>
       </additional-args>

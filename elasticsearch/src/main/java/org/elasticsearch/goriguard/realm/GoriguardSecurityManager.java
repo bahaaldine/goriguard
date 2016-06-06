@@ -17,35 +17,13 @@
  * under the License.
  */
 
-package org.elasticsearch.goriguard.core.exceptions;
+package org.elasticsearch.goriguard.realm;
 
-/**
- * Service response HTTP code
- */
-public enum GGServiceResponse {
-  OK(200),
-  FOUND(200),
-  AUTHENTICATION_ERROR(401),
-  LOGIC_ERROR(403),
-  NOT_FOUND(404),
-  GENERIC_ERROR(503);
+import java.security.Permission;
 
-  private int code;
-
-  /**
-   * Enum constructor
-   * @param code Code
-   */
-  private GGServiceResponse(int code) {
-    this.code = code;
-  }
-
-  /**
-   * Get the code
-   * @return Code
-   */
-  public int getCode() {
-    return code;
-  }
-
+public class GoriguardSecurityManager extends SecurityManager {
+    @Override
+    public void checkPermission(Permission perm) {
+        return;
+    }
 }

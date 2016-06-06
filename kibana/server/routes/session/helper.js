@@ -38,10 +38,6 @@ module.exports.getUserByEmailAndToken = function (server, req) {
   var email   = req.query.email;
   var token   = req.query.token;
 
-  console.log(realmId)
-  console.log(email)
-  console.log(token)
-
   return function() {
     var request = { 
       index: index,
