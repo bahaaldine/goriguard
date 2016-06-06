@@ -190,8 +190,7 @@ public class CustomRealm extends Realm<UsernamePasswordToken> {
             sm.checkPermission(new SpecialPermission());
         }
 
-        String create_session_url = config.settings().get("goriguard.url") + GORI_CREATE_SESSION_API;
-        Client client;
+        final Client client;
         // Create a trust manager that does not validate certificate
         // chains
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
@@ -227,25 +226,33 @@ public class CustomRealm extends Realm<UsernamePasswordToken> {
         } catch (Exception e) {
             return null;
         }
-        
-       
-        
- 
+
         if (client == null) {
             return null;
         }
 
-        CreateSessionRequest request = new CreateSessionRequest(token.principal(),
+        final CreateSessionRequest request = new CreateSessionRequest(token.principal(),
                 new String(token.credentials().copyChars()));
-
-        final WebTarget target = client.target(create_session_url).queryParam("email", request.getEmail())
-                .queryParam("token", request.getToken());
-
+        final String create_session_url = config.settings().get("goriguard.url") + GORI_CREATE_SESSION_API;
+        
+        final WebTarget target = AccessController.doPrivileged(new PrivilegedAction<WebTarget>() {
+            @Override
+            public WebTarget run() {
+                try {
+                    return client.target(create_session_url);
+                } catch (Exception e) {
+                    LOGGER.debug(e.getMessage());
+                    return null;
+                }
+            }
+        });
+        final WebTarget target2 = target.queryParam("email", request.getEmail()).queryParam("token", request.getToken());
+        
         CreateSessionResponse responses = AccessController.doPrivileged(new PrivilegedAction<CreateSessionResponse>() {
             @Override
             public CreateSessionResponse run() {
                 try {
-                    return target.request().get(CreateSessionResponse.class);
+                    return target2.request().get(CreateSessionResponse.class);
                 } catch (Exception e) {
                     LOGGER.debug(e.getMessage());
                     return null;
