@@ -20,11 +20,9 @@
 package org.elasticsearch.goriguard.realm;
 
 import java.io.UnsupportedEncodingException;
+import java.security.AccessControlContext;
 import java.security.AccessController;
-import java.security.AllPermission;
 import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -189,6 +187,7 @@ public class CustomRealm extends Realm<UsernamePasswordToken> {
             // unprivileged code such as scripts do not have SpecialPermission
             sm.checkPermission(new SpecialPermission());
         }
+        AccessControlContext acc = AccessController.getContext();
 
         final Client client;
         // Create a trust manager that does not validate certificate
@@ -223,49 +222,52 @@ public class CustomRealm extends Realm<UsernamePasswordToken> {
             });
             client = clientBuilder.sslContext(sc).build();
 
+            if (client == null) {
+                return null;
+            }
+
+            final CreateSessionRequest request = new CreateSessionRequest(token.principal(),
+                    new String(token.credentials().copyChars()));
+
+            final String create_session_url = config.settings().get("goriguard.url") + GORI_CREATE_SESSION_API;
+
+            WebTarget target = AccessController.doPrivileged(new PrivilegedAction<WebTarget>() {
+                @Override
+                public WebTarget run() {
+                    try {
+                        return client.target(create_session_url);
+                    } catch (Exception e) {
+                        LOGGER.debug(e.getMessage());
+                        return null;
+                    }
+                }
+            });
+            final WebTarget target2 = target.queryParam("email", request.getEmail()).queryParam("token",
+                    request.getToken());
+
+            CreateSessionResponse responses = AccessController
+                    .doPrivileged(new PrivilegedAction<CreateSessionResponse>() {
+                        @Override
+                        public CreateSessionResponse run() {
+                            try {
+                                return target2.request().get(CreateSessionResponse.class);
+                            } catch (Exception e) {
+                                LOGGER.debug(e.getMessage());
+                                return null;
+                            }
+                        }
+                    });
+
+            if (responses == null) {
+                return null;
+            }
+
+            return new User(responses.get_source().getEmail(),
+                    responses.get_source().getRoles().toArray(new String[responses.get_source().getRoles().size()]));
+
         } catch (Exception e) {
             return null;
         }
-
-        if (client == null) {
-            return null;
-        }
-
-        final CreateSessionRequest request = new CreateSessionRequest(token.principal(),
-                new String(token.credentials().copyChars()));
-        final String create_session_url = config.settings().get("goriguard.url") + GORI_CREATE_SESSION_API;
-        
-        final WebTarget target = AccessController.doPrivileged(new PrivilegedAction<WebTarget>() {
-            @Override
-            public WebTarget run() {
-                try {
-                    return client.target(create_session_url);
-                } catch (Exception e) {
-                    LOGGER.debug(e.getMessage());
-                    return null;
-                }
-            }
-        });
-        final WebTarget target2 = target.queryParam("email", request.getEmail()).queryParam("token", request.getToken());
-        
-        CreateSessionResponse responses = AccessController.doPrivileged(new PrivilegedAction<CreateSessionResponse>() {
-            @Override
-            public CreateSessionResponse run() {
-                try {
-                    return target2.request().get(CreateSessionResponse.class);
-                } catch (Exception e) {
-                    LOGGER.debug(e.getMessage());
-                    return null;
-                }
-            }
-        });
-
-        if (responses == null) {
-            return null;
-        }
-
-        return new User(responses.get_source().getEmail(),
-                responses.get_source().getRoles().toArray(new String[responses.get_source().getRoles().size()]));
     }
 
     /**
