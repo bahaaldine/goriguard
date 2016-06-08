@@ -82,24 +82,24 @@ public class CustomRealmIT extends ESIntegTestCase {
 
     @Test
     public void testHttpConnectionWithNoAuthentication() throws Exception {
-       /* HttpResponse response = httpClient().path("/").execute();
+        HttpResponse response = httpClient().path("/").execute();
         assertThat(response.getStatusCode(), is(401));
         String value = response.getHeaders().get("WWW-Authenticate");
-        assertThat(value, is("custom-challenge"));*/
+        assertThat(value, is("custom-challenge"));
     }
 
     @Test
     public void testHttpAuthentication() throws Exception {
-        /*HttpResponse response = httpClient().path("/")
+        HttpResponse response = httpClient().path("/")
                 .addHeader(CustomRealm.USER_HEADER, randomFrom(KNOWN_USERS))
                 .addHeader(CustomRealm.PW_HEADER, PASSWORD)
                 .execute();
-        assertThat(response.getStatusCode(), is(200));*/
+        assertThat(response.getStatusCode(), is(200));
     }
 
     @Test
     public void testTransportClient() throws Exception {
-       /* NodesInfoResponse nodeInfos = client().admin().cluster().prepareNodesInfo().get();
+        NodesInfoResponse nodeInfos = client().admin().cluster().prepareNodesInfo().get();
         NodeInfo[] nodes = nodeInfos.getNodes();
         assertTrue(nodes.length > 0);
         TransportAddress publishAddress = randomFrom(nodes).getTransport().address().publishAddress();
@@ -117,12 +117,12 @@ public class CustomRealmIT extends ESIntegTestCase {
             client.addTransportAddress(publishAddress);
             ClusterHealthResponse response = client.admin().cluster().prepareHealth().execute().actionGet();
             assertThat(response.isTimedOut(), is(false));
-        }*/
+        }
     }
 
     @Test
     public void testTransportClientWrongAuthentication() throws Exception {
-        /*NodesInfoResponse nodeInfos = client().admin().cluster().prepareNodesInfo().get();
+        NodesInfoResponse nodeInfos = client().admin().cluster().prepareNodesInfo().get();
         NodeInfo[] nodes = nodeInfos.getNodes();
         assertTrue(nodes.length > 0);
         TransportAddress publishAddress = randomFrom(nodes).getTransport().address().publishAddress();
@@ -156,12 +156,12 @@ public class CustomRealmIT extends ESIntegTestCase {
         } catch (NoNodeAvailableException e) {
             // expected
           LOGGER.debug(e.getMessage());
-        }*/
+        }
     }
 
     @Test
     public void testSettingsFiltering() throws Exception {
-       /* HttpResponse response = httpClient().path("/_nodes/settings")
+        HttpResponse response = httpClient().path("/_nodes/settings")
                 .addHeader(CustomRealm.USER_HEADER, randomFrom(KNOWN_USERS))
                 .addHeader(CustomRealm.PW_HEADER, PASSWORD)
                 .execute();
@@ -182,6 +182,6 @@ public class CustomRealmIT extends ESIntegTestCase {
 
         logger.error("settings for shield.authc.realms.custom.users {}", settings.getGroups("shield.authc.realms.custom.users"));
         // custom is the name configured externally...
-        assertTrue(settings.getGroups("shield.authc.realms.custom.users").isEmpty());*/
+        assertTrue(settings.getGroups("shield.authc.realms.custom.users").isEmpty());
     }
 }

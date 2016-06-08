@@ -68,7 +68,7 @@ public class CustomRealmTests extends ESTestCase {
         LOGGER.debug(">>>> Logging email");
         User user = realm.authenticate(token);
         assertThat(user, notNullValue());
-        assertThat(user.roles(), arrayContaining("testOO"));
+        assertThat(user.roles(), arrayContaining("testOO", "admin"));
         assertThat(user.principal(), equalTo("bahaaldine@gmail.com"));
     }
 

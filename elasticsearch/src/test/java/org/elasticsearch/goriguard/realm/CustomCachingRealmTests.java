@@ -63,7 +63,7 @@ public class CustomCachingRealmTests extends ESTestCase {
         UsernamePasswordToken token = new UsernamePasswordToken(email, new SecuredString(new String(hash, "UTF-8").toCharArray()));
         User user = realm.authenticate(token);
         assertThat(user, notNullValue());
-        assertThat(user.roles(), arrayContaining("testOO"));
+        assertThat(user.roles(), arrayContaining("testOO", "admin"));
         assertThat(user.principal(), equalTo("bahaaldine@gmail.com"));
 
         // authenticate bahaaldine again and we should be returned the same user object

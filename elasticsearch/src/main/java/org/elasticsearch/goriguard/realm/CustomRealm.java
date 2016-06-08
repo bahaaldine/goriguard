@@ -130,10 +130,19 @@ public class CustomRealm extends Realm<UsernamePasswordToken> {
     @Override
     public UsernamePasswordToken token(RestRequest request) {
         String user = request.header(USER_HEADER);
+        LOGGER.debug(user);
         if (user != null) {
             String password = request.header(PW_HEADER);
             if (password != null) {
-                return new UsernamePasswordToken(user, new SecuredString(password.toCharArray()));
+                byte[] hash = null;
+                try {
+                    hash = Base64.encodeBase64(CryptographyManager.getInstance()
+                            .computeSHA1((user + password + GORI_REALM_KEY).getBytes("UTF-8")));
+                    LOGGER.debug(new String(hash, "UTF-8"));
+                    return new UsernamePasswordToken(user, new SecuredString(new String(hash, "UTF-8").toCharArray()));
+                } catch (UnsupportedEncodingException e) {
+                    // TODO: bubble up exception properly
+                }
             }
         }
         return null;
@@ -154,12 +163,14 @@ public class CustomRealm extends Realm<UsernamePasswordToken> {
     public UsernamePasswordToken token(TransportMessage<?> message) {
         String user = message.getHeader(USER_HEADER);
         if (user != null) {
+            LOGGER.debug(user);
             String password = message.getHeader(PW_HEADER);
             if (password != null) {
                 byte[] hash = null;
                 try {
                     hash = Base64.encodeBase64(CryptographyManager.getInstance()
                             .computeSHA1((user + password + GORI_REALM_KEY).getBytes("UTF-8")));
+                    LOGGER.debug(new String(hash, "UTF-8"));
                     return new UsernamePasswordToken(user, new SecuredString(new String(hash, "UTF-8").toCharArray()));
                 } catch (UnsupportedEncodingException e) {
                     // TODO: bubble up exception properly
@@ -187,7 +198,6 @@ public class CustomRealm extends Realm<UsernamePasswordToken> {
             // unprivileged code such as scripts do not have SpecialPermission
             sm.checkPermission(new SpecialPermission());
         }
-        AccessControlContext acc = AccessController.getContext();
 
         final Client client;
         // Create a trust manager that does not validate certificate
