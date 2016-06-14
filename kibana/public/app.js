@@ -54,9 +54,6 @@ require('ui/routes')
   });
 
 require('ui/chrome')
-.setBrand({
-  logo: 'url(/plugins/goriguard/assets/banner.png) center no-repeat'
-})
 .setTabs([])
 .setNavBackground('#222222');
 
