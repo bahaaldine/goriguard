@@ -34,8 +34,6 @@ module.exports.deleteRealmsById = function (server, realms) {
   var config = server.config();
   var index = config.get('goriguard.indexPattern');
 
-  console.log(realms)
-
   return function() {   
     var bulkArray = [];
 
@@ -50,8 +48,6 @@ module.exports.deleteRealmsById = function (server, realms) {
     var request = { 
       body: bulkArray
     };
-    
-    console.log(request);
 
     return client.bulk(request);
   }
@@ -84,12 +80,18 @@ module.exports.getRealms = function (server, req) {
       type: 'realm',
       body: {
         query: {
-          constant_score: {
-            filter: {
-              missing: {
-                field: "deleted"
+          bool: {
+            must_not: [
+              {
+                constant_score: {
+                  filter: {
+                    exists: {
+                      field: "deleted"
+                    }
+                  }
+                }
               }
-            }
+            ]
           }
         },
         sort: sort
@@ -104,14 +106,16 @@ module.exports.getRealms = function (server, req) {
             {
               match_phrase_prefix: {
                 name: {
-                  query : query
+                  query: query
                 }
               }
-            },
+            }
+          ], 
+          must_not: [
             {
               constant_score: {
                 filter: {
-                  missing: {
+                  exists: {
                     field: "deleted"
                   }
                 }

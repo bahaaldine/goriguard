@@ -16,6 +16,8 @@ require('ui/modules')
 				url += '&query='+encodeURI(listQuery.query);
 			}
 			
+			console.log(url)
+
 			return $http.get(url);
 		}
 

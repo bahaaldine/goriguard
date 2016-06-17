@@ -1,3 +1,5 @@
+require('ui/autoload/all')
+
 require('angular-animate');
 require('angular-material');
 require('angular-aria');
@@ -20,6 +22,8 @@ require('plugins/goriguard/home/home.less');
 require('plugins/goriguard/common/dialog/realm/dialog.js');
 require('plugins/goriguard/common/dialog/users/dialog.js');
 require('plugins/goriguard/common/dialog/roles/dialog.js');
+
+require('plugins/goriguard/home/realm/realm.less');
 
 require('plugins/goriguard/home/realm/create/create.less');
 

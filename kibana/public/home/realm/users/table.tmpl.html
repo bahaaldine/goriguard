@@ -5,7 +5,7 @@
       <span flex></span>
       <md-button class="md-icon-button animated" ng-class="{zoomIn: !selected.length, zoomOut: selected.length}" ng-click="createUser()">
         <md-tooltip>Create user</md-tooltip>
-        <md-icon md-svg-icon="/plugins/goriguard/assets/icons/create.svg"></md-icon>
+        <img kbn-src="/plugins/goriguard/assets/icons/create.svg"></img>
       </md-button>
     </md-data-table-toolbar>
 
@@ -14,11 +14,11 @@
       <span flex></span>
       <md-button class="md-icon-button animated zoomIn" ng-show="selected.length >= 1"  ng-click="deleteUser()">
         <md-tooltip>Delete user</md-tooltip>
-        <md-icon md-svg-icon="/plugins/goriguard/assets/icons/delete.svg"></md-icon>
+        <img kbn-src="/plugins/goriguard/assets/icons/delete.svg"></img>
       </md-button>
       <md-button class="md-icon-button animated zoomIn" ng-show="selected.length == 1" ng-click="editUser()">
         <md-tooltip>Edit user</md-tooltip>
-        <md-icon md-svg-icon="/plugins/goriguard/assets/icons/settings.svg"></md-icon>
+        <img kbn-src="/plugins/goriguard/assets/icons/settings.svg"></img>
       </md-button>
     </md-data-table-toolbar>
 

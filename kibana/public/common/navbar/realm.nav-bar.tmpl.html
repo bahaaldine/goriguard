@@ -2,12 +2,17 @@
 	<div class="realm-create-button">
 		<md-button ng-click="createRealm($event)" class="md-accent">New realm</md-button>
 	</div>
-	
+  <div class="section-picker active" ng-click="getRealmUsers(selectedRealmId)" 
+    class="md-accent">Users</div>
+  <div class="section-picker" ng-click="getRealmRoles(selectedRealmId)" 
+    class="md-accent">Roles</div>
+  <div class="section-picker" ng-click="getRealmSettings(selectedRealmId)" 
+    class="md-accent">Settings</div>
 	<div flex></div>
 	<div class="realm-picker" flex="40">
 		<md-input-container>
       <label>Realms</label>
-      <md-select ng-model="selectedRealmId" md-on-close="openRealm(selectedRealmId)">
+      <md-select ng-model="selectedRealmId" md-on-close="getRealmUsers(selectedRealmId)">
         <md-option ng-repeat="realm in realms track by realm._id" value="{{realm._id}}">
           {{realm._source.name}}
         </md-option>

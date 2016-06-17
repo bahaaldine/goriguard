@@ -71,8 +71,9 @@ require('ui/modules')
 	  	goriguardApiService.getRealmUsersByRole($routeParams.realmId, $scope.selected[0]._source.name).then(function(response) {
 	  		var users = [];
 	  		if ( response.data.hits.length > 0 ) {
+	  			console.log(response.data.hits)
 	  			users = response.data.hits.map(function(hit){
-	  				return hit._source.name;
+	  				return hit._source.firstname + " " + hit._source.lastname;
 	  			});
 	  			roleDialogService.displayUsersforRole($scope.selected, users);
 	  		} else {

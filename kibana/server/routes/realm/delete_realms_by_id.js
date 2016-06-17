@@ -9,8 +9,6 @@ module.exports = function (server) {
     handler: function (request, reply) {
       var realms = request.payload;
 
-      console.log(realms)
-
       if ( !realms ) {
         reply({status: "error", message: "missing realms"})
       }

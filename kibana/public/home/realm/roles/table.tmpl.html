@@ -3,18 +3,18 @@
     <md-data-table-toolbar ng-show="!selected.length">
       <h2 class="md-title"flex="20"><i class="fa fa-tasks"></i>Roles</h2>
       <span flex></span>
-      <md-button class="md-icon-button animated" ng-class="{zoomIn: !selected.length, zoomOut: selected.length}" ng-click="createRole()">
+      <md-button class="img-button animated" ng-class="{zoomIn: !selected.length, zoomOut: selected.length}" ng-click="createRole()">
         <md-tooltip>Create Role</md-tooltip>
-        <md-icon md-svg-icon="/plugins/goriguard/assets/icons/create.svg"></md-icon>
+        <img kbn-src="/plugins/goriguard/assets/icons/create.svg"></img>
       </md-button>
     </md-data-table-toolbar>
 
     <md-data-table-toolbar class="alternate" ng-show="selected.length" layout="row" layout-align="space-between center" aria-hidden="false">
       <h2>{{selected.length}} {{selected.length > 1 ? 'roles' : 'role'}} selected</h2>
       <span flex></span>
-      <md-button class="md-icon-button animated zoomIn" ng-show="selected.length == 1"  ng-click="deleteRole()">
+      <md-button class="img-button animated zoomIn" ng-show="selected.length == 1"  ng-click="deleteRole()">
         <md-tooltip>Delete role</md-tooltip>
-        <md-icon md-svg-icon="/plugins/goriguard/assets/icons/delete.svg"></md-icon>
+        <img kbn-src="/plugins/goriguard/assets/icons/delete.svg"></img>
       </md-button>
     </md-data-table-toolbar>
 

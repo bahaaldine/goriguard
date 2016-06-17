@@ -9,7 +9,8 @@ require('ui/modules')
       template: require('plugins/goriguard/common/navbar/realm.nav-bar.tmpl.html'),
       link: function($scope, $element, attrs) {
         var getRealms = function () {
-          goriguardApiService.getRealms().then(function(response){
+          console.log("get realms")
+          goriguardApiService.getRealms().then(function(response) {
             $scope.realms = response.data.hits;
           });
         }
@@ -24,12 +25,20 @@ require('ui/modules')
             clickOutsideToClose:true
           })
           .then(function(realmId) {
-            $location.path('/realm/users').search({realmId: realmId});
+            $scope.getRealmUsers(realmId);
           });
         };
 
-        $scope.openRealm = function(realmId) {
+        $scope.getRealmUsers = function(realmId) {
           $location.path('/realm/users').search({realmId: realmId});
+        }
+
+        $scope.getRealmRoles = function(realmId) {
+          $location.path('/realm/roles').search({realmId: realmId});
+        }
+
+        $scope.getRealmSettings = function(realmId) {
+          $location.path('/realm/settings').search({realmId: realmId});
         }
 
         getRealms();

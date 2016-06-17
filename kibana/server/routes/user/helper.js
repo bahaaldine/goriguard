@@ -231,8 +231,6 @@ module.exports.deleteUsersById = function (server, req) {
     var request = { 
       body: bulkArray
     };
-
-    console.log(request);
     
     return client.bulk(request);
   }
